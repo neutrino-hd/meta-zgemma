@@ -1,0 +1,67 @@
+From afbd899846d2bfbb7b55a624c413e6b4dffb228e Mon Sep 17 00:00:00 2001
+From: Markus Volk <f_l_k@t-online.de>
+Date: Wed, 23 Oct 2019 02:45:53 +0200
+Subject: [PATCH] neutrino: add zgemma h7 stb models
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ acinclude.m4     | 8 ++++++--
+ src/neutrino.cpp | 2 +-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/acinclude.m4 b/acinclude.m4
+index 64b818662..ace69ac34 100644
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -459,7 +459,7 @@ AC_ARG_WITH(boxtype,
+ 
+ AC_ARG_WITH(boxmodel,
+ 	AS_HELP_STRING([--with-boxmodel], [valid for coolstream: hd1, hd2])
+-AS_HELP_STRING([], [valid for armbox: hd51, hd60, vusolo4k, bre2ze4k])
++AS_HELP_STRING([], [valid for armbox: hd51, hd60, vusolo4k, bre2ze4k, h7])
+ AS_HELP_STRING([], [valid for mipsbox: vuduo])
+ AS_HELP_STRING([], [valid for generic: raspi]),
+ 	[case "${withval}" in
+@@ -482,7 +482,7 @@ AS_HELP_STRING([], [valid for generic: raspi]),
+ 				AC_MSG_ERROR([unknown model $withval for boxtype $BOXTYPE])
+ 			fi
+ 		;;
+-		hd51|hd60|vusolo4k|bre2ze4k)
++		hd51|hd60|vusolo4k|bre2ze4k|h7)
+ 			if test "$BOXTYPE" = "armbox"; then
+ 				BOXMODEL="$withval"
+ 			else
+@@ -527,6 +527,7 @@ AM_CONDITIONAL(BOXMODEL_HD60, test "$BOXMODEL" = "hd60")
+ AM_CONDITIONAL(BOXMODEL_VUSOLO4K, test "$BOXMODEL" = "vusolo4k")
+ AM_CONDITIONAL(BOXMODEL_BRE2ZE4K, test "$BOXMODEL" = "bre2ze4k")
+ AM_CONDITIONAL(BOXMODEL_VUDUO, test "$BOXMODEL" = "vuduo")
++AM_CONDITIONAL(BOXMODEL_H7, test "$BOXMODEL" = "h7")
+ 
+ AM_CONDITIONAL(BOXMODEL_RASPI, test "$BOXMODEL" = "raspi")
+ 
+@@ -567,6 +568,9 @@ elif test "$BOXMODEL" = "bre2ze4k"; then
+ elif test "$BOXMODEL" = "vuduo"; then
+ 	AC_DEFINE(BOXMODEL_VUDUO, 1, [vuduo])
+ 	AC_DEFINE(ENABLE_CHANGE_OSD_RESOLUTION, 1, [enable change the osd resolution])
++elif test "$BOXMODEL" = "h7"; then
++	AC_DEFINE(BOXMODEL_H7, 1, [h7])
++	AC_DEFINE(ENABLE_CHANGE_OSD_RESOLUTION, 1, [enable change the osd resolution])
+ elif test "$BOXMODEL" = "raspi"; then
+ 	AC_DEFINE(BOXMODEL_RASPI, 1, [raspberry pi])
+ fi
+diff --git a/src/neutrino.cpp b/src/neutrino.cpp
+index f7a89b4c0..f0e503cbe 100644
+--- a/src/neutrino.cpp
++++ b/src/neutrino.cpp
+@@ -5015,7 +5015,7 @@ void CNeutrinoApp::loadKeys(const char * fname)
+ 	g_settings.mpkey_rewind = tconfig->getInt32( "mpkey.rewind", CRCInput::RC_rewind );
+ 	g_settings.mpkey_forward = tconfig->getInt32( "mpkey.forward", CRCInput::RC_forward );
+ 	g_settings.mpkey_stop = tconfig->getInt32( "mpkey.stop", CRCInput::RC_stop );
+-#if BOXMODEL_HD51 || BOXMODEL_HD60 || BOXMODEL_BRE2ZE4K
++#if BOXMODEL_HD51 || BOXMODEL_HD60 || BOXMODEL_BRE2ZE4K || BOXMODEL_H7
+ 	g_settings.mpkey_play = tconfig->getInt32( "mpkey.play", CRCInput::RC_playpause );
+ 	g_settings.mpkey_pause = tconfig->getInt32( "mpkey.pause", CRCInput::RC_playpause );
+ #elif BOXMODEL_VUSOLO4K
+-- 
+2.23.0.windows.1
+

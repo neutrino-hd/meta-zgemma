@@ -7,3 +7,7 @@ SRC_URI[sha256sum] = "9774f40278ef9f5ade3c06b8b6c584b4f226729c067af45bf7d0ef1b6d
 
 COMPATIBLE_MACHINE = "h7"
 
+INSANE_SKIP_${PN} += "ldflags"
+
+RPROVIDES_${PN} = "virtual/egl"
+RPROVIDES_${PN} = "virtual/libgles2"

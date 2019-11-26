@@ -7,7 +7,7 @@ VER ?= "${@bb.utils.contains('TARGET_ARCH', 'aarch64', '64' , '', d)}"
 
 PV = "${KV}-${SRCDATE}"
 
-SRC_URI = "http://www.zgemma.org/downloads/${MACHINE}-drivers${VER}-${PV}.zip;name=${ARCH} \
+SRC_URI = "http://source.mynonpublic.com/zgemma/${MACHINE}-drivers${VER}-${PV}.zip;name=${ARCH} \
 	   file://license \
 "
 

@@ -9,7 +9,7 @@ DEPENDS = "zgemma-v3ddriver-headers"
 
 PV = "${SRCDATE}"
 
-SRC_URI = "http://www.zgemma.org/downloads/${MACHINE}-v3ddriver-${SRCDATE}.zip"
+SRC_URI = "http://source.mynonpublic.com/zgemma/${MACHINE}-v3ddriver-${SRCDATE}.zip"
 
 S = "${WORKDIR}"
 

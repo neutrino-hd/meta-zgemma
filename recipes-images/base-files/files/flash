@@ -25,7 +25,7 @@ pidof neutrino >> /dev/null && systemctl stop neutrino
 echo encoder > /proc/stb/avs/0/input
 
 clear
-which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update.jpg bgra:/dev/fb0
+which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_download.jpg bgra:/dev/fb0
 
 exit_done() {
 	if [[ "$no_update_available" = '1' ]];then
@@ -34,11 +34,13 @@ exit_done() {
 		exit 0;
 	elif [ "$root" = "$part" ];then
 		clear
+		which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_done.jpg bgra:/dev/fb0
 		which git >> /dev/null && cd /etc && git reset --hard >> /dev/null
 		echo "...Reboot"
 		echo "...Reboot" > "$dev_display" && systemctl reboot
 		exit 0;
 	else
+		which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_done.jpg bgra:/dev/fb0
 		sleep 3
 		clear
 		pidof neutrino >> /dev/null || systemctl start neutrino
@@ -73,12 +75,13 @@ imageversion_local="$imagebase/imageversion_partition_$part"
 function write_image () {
 	printf '\n\n\033[1m%s\n\033[0m' "Writing image into partition $part"
 	echo "Writing image into partition $part" > "$dev_display"
-
+	which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_kernel.jpg bgra:/dev/fb0
 	printf '\n\033[33m%s\033[37m%s\n' "Writing kernel into $devbase/$kernelbase$append"
 	pv -w 100 < "$imagedir"/"$kernel_bin" > "$devbase"/"$kernelbase$append"
 
 	[ "$root" = "$part" ] || rm -rf "$destination"/"$rootbase$part"/*
 
+	which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_rootfs.jpg bgra:/dev/fb0
 	printf '\n\033[33m%s\033[37m%s\n' "Writing rootfs into $destination/$rootbase$part"
 	mkdir -p "$destination"/"$rootbase$part"
 	pv "$imagedir"/"$rootfs" -w 100 | tar -xjf - -C "$destination"/"$rootbase$part"
@@ -123,6 +126,7 @@ if [ -z "$2" ] || [ "$2" = 'force' ]; then
 	[ -d "$imagedir" ] && rm -r "$imagedir"
 	echo "Decompressing $image" > "$dev_display"
 	printf '\n\033[1m%s\n\033[0m' "Decompressing  $image"
+	which convert >> /dev/null && convert -resize "$resolution" -gravity center -extent "$resolution" "$picture_source"/update_decompress.jpg bgra:/dev/fb0
 	$unpack || exit_done;
 	[ -f "$imageversion" ] && [ -d "$imagebase" ] && cp -rf "$imageversion" "$imageversion_local"
 	[ -f "$imagefile" ] && rm "$imagefile"

@@ -7,7 +7,7 @@ MACHINE_DRIVER ?= "h7"
 MACHINE_BRAND = "ZGEMMA"
 MACHINE_NAME = "h7"
 IMAGEDIR = "zgemma/h7"
-IMAGE_LINK = "${IMAGE_NAME}-h7"
+
 MTD_ROOTFS = "mmcblk0p3"
 MTD_KERNEL = "mmcblk0p2"
 KERNEL_FILE = "kernel.bin"

@@ -71,8 +71,6 @@ image_packaging() {
 	cd ${DEPLOY_DIR_IMAGE}
 	mkdir -p ${IMAGEDIR}
 
-
-
 	cp ${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.tar.bz2 ${IMAGEDIR}/rootfs.tar.bz2
 	cp zImage ${IMAGEDIR}/${KERNEL_FILE}
 	echo ${IMAGE_NAME} > ${IMAGEDIR}/imageversion
